@@ -7,7 +7,15 @@ Some convenient bindings for docker in a prezto prompt.
 ### Docker
 
 * `dps`: list all running containers (`docker ps`)
-* `dr`: run a container (`docker run`)
+* `ds`: search the hub for docker images (`docker search`)
+
+#### Run
+
+* `dr`: without argument, it is an alias for docker run
+* `dr -i <name>`: use default trusted images with default options. Currently support:
+    * grafana
+    * redis
+    * mysql
 
 ### Docker Machine
 

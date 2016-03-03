@@ -6,8 +6,53 @@ function dmip {
     docker-machine ip $1
 }
 
+function dr {
+    while getopts ":i:" opt; do
+        case $opt in
+            i)
+                if [[ $OPTARG -eq "grafana" ]]; then
+                    docker run \
+                       --detach \
+                       --publish=80:80 \
+                       --publish=81:81 \
+                       --publish=8125:8125/udp \
+                       --publish=8126:8126 \
+                       --name grafana \
+                       kamon/grafana_graphite
+                    exit 0
+                fi
+                if [[ $OPTARG -eq "redis" ]]; then
+                    docker run \
+                        --detach \
+                        --name redis \
+                        -p 6379:6379
+                        redis
+                    exit 0
+                fi
+                if [[ $OPTARG -eq "mysql" ]]; then
+                    docker run \
+                        --detach \
+                        --name mysql \
+                        -e MYSQL_ROOT_PASSWORD=password \
+                        mysql:latest
+                fi
+                ;;
+            :)
+                echo "Option -$OPTARG requires an argument." >&2
+                exit 1
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                ;;
+        esac
+    done
+
+    docker run $1
+    exit 0
+}
+
 alias dps='docker ps'
-alias dr='docker run'
+alias drm='docker rm'
 
 alias dm='docker-machine'
 alias dmls='docker-machine ls'
