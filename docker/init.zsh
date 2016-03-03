@@ -19,23 +19,26 @@ function dr {
                        --publish=8126:8126 \
                        --name grafana \
                        kamon/grafana_graphite
-                    exit 0
-                fi
-                if [[ $OPTARG -eq "redis" ]]; then
+                elif [[ $OPTARG -eq "redis" ]]; then
                     docker run \
                         --detach \
                         --name redis \
                         -p 6379:6379
                         redis
-                    exit 0
-                fi
-                if [[ $OPTARG -eq "mysql" ]]; then
+                elif [[ $OPTARG -eq "mysql" ]]; then
                     docker run \
                         --detach \
                         --name mysql \
                         -e MYSQL_ROOT_PASSWORD=password \
-                        mysql:latest
+                        mysql
+                elif [[ $OPTARG -eq "postgres" ]]; then
+                    docker run \
+                        --detach \
+                        --name postgres \
+                        -e POSTGRES_PASSWORD=password \
+                        postgres
                 fi
+                exit 0
                 ;;
             :)
                 echo "Option -$OPTARG requires an argument." >&2
