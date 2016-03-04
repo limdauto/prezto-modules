@@ -10,7 +10,7 @@ function dr {
     while getopts ":i:" opt; do
         case $opt in
             i)
-                if [[ $OPTARG -eq "grafana" ]]; then
+                if [[ $OPTARG == "grafana" ]]; then
                     docker run \
                        --detach \
                        --publish=80:80 \
@@ -31,14 +31,14 @@ function dr {
                         --name mysql \
                         -e MYSQL_ROOT_PASSWORD=password \
                         mysql
-                elif [[ $OPTARG -eq "postgres" ]]; then
+                elif [[ $OPTARG == "postgres" ]]; then
                     docker run \
                         --detach \
                         --name postgres \
                         -e POSTGRES_PASSWORD=password \
                         postgres
                 fi
-                exit 0
+                return 0
                 ;;
             :)
                 echo "Option -$OPTARG requires an argument." >&2
@@ -46,12 +46,12 @@ function dr {
                 ;;
             \?)
                 echo "Invalid option: -$OPTARG" >&2
+                exit 1
                 ;;
         esac
     done
 
     docker run $1
-    exit 0
 }
 
 alias dps='docker ps'
