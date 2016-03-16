@@ -8,6 +8,7 @@ Some convenient bindings for docker in a prezto prompt.
 
 * `dps`: list all running containers (`docker ps`)
 * `ds`: search the hub for docker images (`docker search`)
+* `dip <container-id>`: look up the ip of a given container id
 
 #### Run
 
