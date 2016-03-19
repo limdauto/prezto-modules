@@ -18,25 +18,36 @@ function dr {
                        --publish=8125:8125/udp \
                        --publish=8126:8126 \
                        --name grafana \
-                       kamon/grafana_graphite
-                elif [[ $OPTARG -eq "redis" ]]; then
+                       kamon/grafana_graphite;
+                elif [[ $OPTARG == "redis" ]]; then
                     docker run \
                         --detach \
                         --name redis \
-                        -p 6379:6379
-                        redis
-                elif [[ $OPTARG -eq "mysql" ]]; then
+                        -p 6379:6379 \
+                        redis;
+                elif [[ $OPTARG == "mysql" ]]; then
                     docker run \
                         --detach \
                         --name mysql \
                         -e MYSQL_ROOT_PASSWORD=password \
-                        mysql
+                        mysql;
                 elif [[ $OPTARG == "postgres" ]]; then
                     docker run \
                         --detach \
                         --name postgres \
                         -e POSTGRES_PASSWORD=password \
-                        postgres
+                        postgres;
+                elif [[ $OPTARG == "influxdb-collectd" ]]; then
+                    docker run \
+                        --detach \
+                        -p 8083:8083 \
+                        -p 8086:8086 \
+                        -p 25826:25826/udp \
+                        -e ADMIN_USER="root" \
+                        -e INFLUXDB_INIT_PWD="collectd" \
+                        -e PRE_CREATE_DB=collectd -e COLLECTD_DB="collectd" \
+                        -e COLLECTD_BINDING=':25826' \
+                        tutum/influxdb;
                 fi
                 return 0
                 ;;
