@@ -65,6 +65,10 @@ function dr {
     docker run $1
 }
 
+function dip {
+    docker inspect --format '{{ .NetworkSettings.IPAddress }}' $1
+}
+
 alias dps='docker ps'
 alias drm='docker rm'
 
