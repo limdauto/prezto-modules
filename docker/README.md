@@ -17,6 +17,8 @@ Some convenient bindings for docker in a prezto prompt.
     * grafana
     * redis
     * mysql
+    * postgresql
+    * influxdb with collectd support
 
 ### Docker Machine
 
