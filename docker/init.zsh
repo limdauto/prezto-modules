@@ -48,6 +48,21 @@ function dr {
                         -e PRE_CREATE_DB=collectd -e COLLECTD_DB="collectd" \
                         -e COLLECTD_BINDING=':25826' \
                         tutum/influxdb;
+                elif [[ $OPTARG == "rocketchat" ]]; then
+                    docker run
+                        --detach \
+                        --link postgres:postgres -it -e ROCKETCHAT_URL=dockerhost:3000 \
+                        -e ROCKETCHAT_ROOM='' \
+                        -e LISTEN_ON_ALL_PUBLIC=true \
+                        -e ROCKETCHAT_USER=bot \
+                        -e ROCKETCHAT_PASSWORD=bot \
+                        -e ROCKETCHAT_AUTH=password \
+                        -e BOT_NAME=bot \
+                        -e EXTERNAL_SCRIPTS=hubot-pugme,hubot-help \
+                        -e DEV=true \
+                        -v $PWD/scripts:/home/hubot/scripts -v $PWD/hubot-rocketchat:$PWD/hubot-rocketchat
+                        --name hubot-rocketchat
+                        rocketchat/hubot-rocketchat;
                 fi
                 return 0
                 ;;
